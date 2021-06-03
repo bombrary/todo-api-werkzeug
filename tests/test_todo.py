@@ -11,8 +11,10 @@ import json
 def client():
     db_fd, Todo.DB_PATH = tempfile.mkstemp()
     Todo.init_table()
+    yield Client(app)
+
     os.close(db_fd)
-    return Client(app)
+    os.unlink(Todo.DB_PATH)
 
 
 @pytest.fixture
