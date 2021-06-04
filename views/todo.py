@@ -35,7 +35,7 @@ def post(request: Request):
         raise BadRequest('Todo ValidationError')
 
     todo_id = Todo(todo_dict['content']).insert()
-    return Response(str(todo_id), mimetype='application/json')
+    return Response('', status=201, headers=[('Location', f'/todo/{todo_id}/')])
 
 
 def get(request: Request, todo_id: int):
@@ -61,7 +61,7 @@ def put(request: Request, todo_id: int):
 
     todo.content = todo_dict['content']
     todo.update()
-    return Response('{}', mimetype='application/json')
+    return Response('', status=204)
 
 
 def delete(request: Request, todo_id: int):
@@ -70,4 +70,4 @@ def delete(request: Request, todo_id: int):
     except TodoNotFound:
         raise NotFound('Todo NotFound')
     todo.delete()
-    return Response('{}', mimetype='application/json')
+    return Response('', status=204)
